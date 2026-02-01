@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ecolens Options</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="brand">
+        <div class="logo">E</div>
+        <div>
+          <div class="name">Ecolens</div>
+          <div class="muted">Creator: Jayden Jeswin Raj</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="card">
+        <h2>AI (Optional)</h2>
+
+        <label class="row">
+          <input type="checkbox" id="useGemini" />
+          <span>Enable Gemini for scoring (falls back to heuristic if unavailable)</span>
+        </label>
+
+        <label class="row">
+          <input type="checkbox" id="enableDeepAnalysis" />
+          <span>Enable “Ask EcoLens (AI)” in popup (opt-in, uses Gemini)</span>
+        </label>
+
+        <label>
+          Gemini API Key
+          <input id="geminiApiKey" type="password" placeholder="Paste your API key" />
+        </label>
+
+        <label>
+          Gemini Model
+          <input id="geminiModel" type="text" placeholder="gemini-1.5-flash" />
+        </label>
+
+        <p class="muted">
+          Without a key, EcoLens uses a local heuristic scorer based on on-page signals.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Weights</h2>
+        <p class="muted">Sustainability is subjective. Use a preset or edit JSON weights directly.</p>
+
+        <div class="preset-row">
+          <button class="chip" data-preset="balanced">Balanced</button>
+          <button class="chip" data-preset="climateFirst">Climate-first</button>
+          <button class="chip" data-preset="lowToxicity">Low toxicity</button>
+          <button class="chip" data-preset="ethicalLabor">Ethical labor</button>
+        </div>
+
+        <textarea id="weights" rows="12"></textarea>
+      </section>
+
+      <section class="card">
+        <h2>Verified Brands (Alternatives)</h2>
+        <p class="muted">Edit JSON list. Each entry: { category, title, query, reason }</p>
+        <textarea id="brands" rows="10"></textarea>
+      </section>
+
+      <section class="card actions">
+        <button class="btn" id="save">Save</button>
+        <button class="btn secondary" id="reset">Reset to defaults</button>
+        <span class="muted" id="status"></span>
+      </section>
+    </main>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

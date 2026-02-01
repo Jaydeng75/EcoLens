@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ecolens</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="brand">
+        <div class="logo">E</div>
+        <div>
+          <div class="name">Ecolens</div>
+          <div class="tagline">Making Sustainable Shopping Simple</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="card" id="statusCard">
+        <div class="muted" id="statusLine">Scanning this page…</div>
+      </section>
+
+      <section class="card hidden" id="scoreCard">
+        <div class="row">
+          <div>
+            <div class="label">Sustainability</div>
+            <div class="score-row">
+              <div class="score" id="overallScore">--</div>
+              <div class="score-meaning" id="scoreMeaning">--</div>
+            </div>
+            <div class="micro" id="microSignals"></div>
+          </div>
+          <div class="band" id="bandBadge">--</div>
+        </div>
+
+        <div class="product" id="productBlock">
+          <img id="productImg" class="product-img" alt="" />
+          <div>
+            <div class="product-title" id="productTitle"></div>
+            <div class="muted" id="productMeta"></div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <details class="details" id="whyDetails">
+          <summary>Why this score?</summary>
+          <div class="details-body">
+            <div class="why-grid">
+              <div>
+                <div class="why-label">Score dropped due to</div>
+                <ul class="list" id="driversDropped"></ul>
+              </div>
+              <div>
+                <div class="why-label">Score boosted by</div>
+                <ul class="list" id="driversBoosted"></ul>
+              </div>
+            </div>
+
+            <div class="why-meta">
+              <span class="pill" id="confidencePill">Confidence: --</span>
+              <span class="muted" id="engineLine"></span>
+            </div>
+
+            <div class="why-label" style="margin-top:10px;">Notes</div>
+            <ul class="list" id="analysisNotes"></ul>
+          </div>
+        </details>
+
+        <div class="warn hidden" id="greenwashWarn"></div>
+
+        <div class="divider"></div>
+
+        <div class="label">Key parameters (weighted)</div>
+        <div id="metrics"></div>
+
+        <div class="divider"></div>
+
+        <div class="label">Certifications</div>
+        <div id="certs" class="muted"></div>
+
+        <details class="details" id="communityDetails">
+          <summary>Community intelligence</summary>
+          <div class="details-body">
+            <div class="muted" id="communityStats"></div>
+            <input class="input" id="reportNote" placeholder="Optional note (kept locally)" />
+            <div class="row" style="margin-top:8px;">
+              <button class="btn secondary" id="reportMisleadingBtn">Report misleading</button>
+              <button class="btn secondary" id="reportVerifiedBtn">Mark as eco brand</button>
+            </div>
+            <div class="muted" style="margin-top:6px;">Beta: stored on your device. Export/import to share with others.</div>
+
+            <div class="row" style="margin-top:10px;">
+              <button class="btn secondary" id="exportReportsBtn">Export</button>
+              <button class="btn secondary" id="importReportsBtn">Import</button>
+              <input type="file" id="importReportsFile" class="hidden" accept="application/json" />
+            </div>
+          </div>
+        </details>
+
+        <details class="details" id="brandDetails">
+          <summary>Brand sustainability profile</summary>
+          <div class="details-body">
+            <div class="muted" id="brandProfileLine">—</div>
+          </div>
+        </details>
+
+        <details class="details" id="deepDetails">
+          <summary>Ask EcoLens (AI)</summary>
+          <div class="details-body">
+            <div class="muted">Opt-in feature. Enable in Options and add your Gemini API key.</div>
+            <textarea class="textarea" id="deepQuestion" rows="3" placeholder="e.g., Is this actually eco-friendly?"></textarea>
+            <div class="row" style="margin-top:8px;">
+              <button class="btn" id="deepAskBtn">Ask</button>
+              <span class="muted" id="deepStatus"></span>
+            </div>
+            <div class="answer" id="deepAnswer"></div>
+          </div>
+        </details>
+
+        <div class="divider"></div>
+
+        <div class="label">Personalize</div>
+        <div class="preset-row">
+          <button class="chip" data-preset="climateFirst">Climate-first</button>
+          <button class="chip" data-preset="lowToxicity">Low toxicity</button>
+          <button class="chip" data-preset="ethicalLabor">Ethical labor</button>
+        </div>
+        <div class="muted" id="presetStatus"></div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <button class="btn" id="trackSwitchBtn">Log this switch</button>
+          <a class="link" href="#" id="openOptions">Options</a>
+        </div>
+      </section>
+
+      <section class="card hidden" id="altCard">
+        <div class="label">Eco alternatives</div>
+
+        <div class="compare hidden" id="compareBlock">
+          <div class="compare-title">Alternative comparison</div>
+          <div class="compare-grid">
+            <div>
+              <div class="muted">Previous</div>
+              <div class="compare-score" id="compareBaseScore">--</div>
+            </div>
+            <div>
+              <div class="muted">Current</div>
+              <div class="compare-score" id="compareAltScore">--</div>
+            </div>
+            <div>
+              <div class="muted">Δ</div>
+              <div class="compare-score" id="compareDeltaScore">--</div>
+            </div>
+          </div>
+          <div class="muted" id="compareDeltaImpact"></div>
+          <div class="row" style="margin-top:8px;">
+            <button class="btn" id="logSwitchFromCompareBtn">Log savings</button>
+            <button class="btn secondary" id="clearCompareBtn">Clear</button>
+          </div>
+        </div>
+
+        <div id="alternatives"></div>
+      </section>
+
+      <section class="card" id="impactCard">
+        <div class="label">Impact dashboard</div>
+        <div class="impact-grid">
+          <div class="impact-box">
+            <div class="impact-num" id="impactCount">0</div>
+            <div class="muted">Switches logged</div>
+          </div>
+          <div class="impact-box">
+            <div class="impact-num" id="impactCo2">0</div>
+            <div class="muted">kg CO₂ saved (est.)</div>
+          </div>
+          <div class="impact-box">
+            <div class="impact-num" id="impactWater">0</div>
+            <div class="muted">L water saved (est.)</div>
+          </div>
+        </div>
+
+        <details class="details" id="timelineDetails">
+          <summary>Shopping impact timeline</summary>
+          <div class="details-body">
+            <div class="muted" id="monthSummary"></div>
+            <div id="timelineList"></div>
+
+            <div class="row" style="margin-top:10px;">
+              <button class="btn secondary" id="shareCardBtn">Generate share card</button>
+              <a class="link hidden" id="downloadShare" href="#" download="ecolens-impact.png">Download</a>
+            </div>
+            <canvas id="shareCanvas" class="hidden" width="900" height="470"></canvas>
+          </div>
+        </details>
+
+        <details class="details" id="ordersDetails">
+          <summary>Receipt scan / order history (Amazon)</summary>
+          <div class="details-body">
+            <div class="muted">Open your Amazon Orders page, then click Scan. We estimate footprint from order titles (heuristic).</div>
+            <div class="row" style="margin-top:8px;">
+              <button class="btn secondary" id="openOrdersBtn">Open Orders</button>
+              <button class="btn" id="scanOrdersBtn">Scan this page</button>
+            </div>
+            <div class="muted" id="ordersStatus" style="margin-top:6px;"></div>
+            <div class="muted" id="ordersSummary" style="margin-top:6px;"></div>
+          </div>
+        </details>
+      </section>
+
+      <footer class="footer">
+        <span class="muted">Creator: Jayden Jeswin Raj</span>
+      </footer>
+    </main>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
