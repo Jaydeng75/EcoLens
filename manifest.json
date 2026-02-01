@@ -1,0 +1,66 @@
+{
+  "manifest_version": 3,
+  "name": "Ecolens - Making Sustainable Shopping Simple",
+  "version": "1.0.0",
+  "description": "Real-time sustainability insights and eco-friendly alternatives while you shop online.",
+  "author": "Jayden Jeswin Raj",
+
+  "action": {
+    "default_title": "Ecolens",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "options_page": "options/options.html",
+
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs"
+  ],
+
+  "host_permissions": [
+    "https://*.amazon.com/*",
+    "https://*.amazon.in/*",
+    "https://*.amazon.co.uk/*",
+    "https://*.walmart.com/*",
+    "https://*.ebay.com/*",
+    "https://*.target.com/*",
+    "https://generativelanguage.googleapis.com/*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.amazon.com/*",
+        "https://*.amazon.in/*",
+        "https://*.amazon.co.uk/*",
+        "https://*.walmart.com/*",
+        "https://*.ebay.com/*",
+        "https://*.target.com/*"
+      ],
+      "js": [
+        "content/extractors.js",
+        "content/content-script.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
